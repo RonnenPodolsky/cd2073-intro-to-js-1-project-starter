@@ -158,9 +158,9 @@ document.querySelector('.pay').addEventListener('click', (e) => {
 //         drawCheckout();
 //     }
 // })
-/* End all items from cart */
+// /* End all items from cart */
 
-/* Begin currency converter */
+// /* Begin currency converter */
 // function currencyBuilder(){
 //     let currencyPicker = document.querySelector('.currency-selector');
 //     let select = document.createElement("select");
@@ -185,7 +185,7 @@ document.querySelector('.pay').addEventListener('click', (e) => {
 //             break;
 //      }
 
-//     currency(event.target.value);
+//     // currency(event.target.value);
 //     drawProducts();
 //     drawCart();
 //     drawCheckout();

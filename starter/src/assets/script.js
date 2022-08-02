@@ -57,16 +57,13 @@ const cart = [];
 
 const addProductToCart = (productId) => {
   products.forEach((product) => {
-    console.log(product)
-    if (product.productId === productId){
+    if (product.productId === productId) {
       product.quantity++;
-      // if cart.
-      console.log(cart.indexOf(product))
-      if (cart.indexOf(product) === -1){
+      if (cart.indexOf(product) === -1) {
         cart.push(product)
       }
     }
- }) 
+  })
 }
 
 /* Create a function named increaseQuantity that takes in the productId as an argument
@@ -76,10 +73,11 @@ const addProductToCart = (productId) => {
 
 const increaseQuantity = (productId) => {
   cart.forEach((product) => {
-    if (product.productId === productId){
-      product.quantity++;
+    if (product.productId === productId) { 
+      product.quantity++; 
+      return;
     }
- }) 
+  })
 }
 
 /* Create a function named decreaseQuantity that takes in the productId as an argument
@@ -89,14 +87,15 @@ const increaseQuantity = (productId) => {
 */
 const decreaseQuantity = (productId) => {
   cart.forEach((product) => {
-    if (product.productId === productId){
+    if (product.productId === productId) {
       if (product.quantity === 1) {
-        removeProductFromCart(productId)
+        removeProductFromCart(productId);
         return;
       }
       product.quantity--;
+      return;
     }
- }) 
+  })
 }
 /* Create a function named removeProductFromCart that takes in the productId as an argument
   - removeProductFromCart should get the correct product based on the productId
@@ -104,16 +103,14 @@ const decreaseQuantity = (productId) => {
   - removeProductFromCart should remove the product from the cart
 */
 const removeProductFromCart = (productId) => {
-  products.forEach((product) => {
-    console.log(product)
-    if (product.productId === productId){
+  cart.forEach((product) => {
+    if (product.productId === productId) {
       product.quantity = 0;
-      // if cart.
-      cart.splice(cart.indexOf(product), 1)
+      cart.splice(cart.indexOf(product), 1);
+      return;
     }
- }) 
+  })
 }
-
 
 /* Create a function named cartTotal that has no parameters
   - cartTotal should iterate through the cart to get the total of all products
@@ -131,7 +128,12 @@ const cartTotal = () => {
 /* Create a function called emptyCart that empties the products from the cart */
 
 const emptyCart = () => {
-  cart = [];
+  while (cart.length > 0) {
+    cart.pop()
+  }
+  products.forEach((product) => {
+    product.quantity = 0;
+  })
 }
 
 /* Create a function named pay that takes in an amount as an argument
@@ -139,12 +141,24 @@ const emptyCart = () => {
   - pay will return a positive number if money should be returned to customer
 */
 
+let totalPaid = 0;
+
 const pay = (amount) => {
-  return (amount - cartTotal() ? amount - cartTotal() : cartTotal() - amount); 
+  const diff = amount + totalPaid - cartTotal();
+  
+  if (diff < 0){
+    totalPaid += amount;
+  }
+
+  return diff;
+  // return (amount - cartTotal() ? amount - cartTotal() : cartTotal() - amount);
 }
 
 /* Place stand out suggestions here (stand out suggestions can be found at the bottom of the project rubric.)*/
-  
+
+// const currency = () => {
+// }
+
 /* The following is for running unit tests. 
    To fully complete this project, it is expected that all tests pass.
    Run the following command in terminal to run tests
@@ -159,7 +173,7 @@ module.exports = {
   decreaseQuantity,
   removeProductFromCart,
   cartTotal,
-  pay, 
+  pay,
   emptyCart,
   /* Uncomment the following line if completing the currency converter bonus */
   // currency
