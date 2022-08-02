@@ -1,3 +1,5 @@
+
+ 
 let currencySymbol = '$';
 
 // Draws product list
@@ -63,6 +65,7 @@ drawCart();
 drawCheckout();
 
 document.querySelector('.products').addEventListener('click', (e) => {
+
     let productId = e.target.parentNode.getAttribute('data-productId');
     productId *= 1;
     addProductToCart(productId);
