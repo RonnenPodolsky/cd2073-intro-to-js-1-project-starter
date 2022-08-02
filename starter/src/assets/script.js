@@ -1,6 +1,9 @@
 /* Create an array named products which you will use to add all of your product object literals that you create in the next step. */
 
 const products = [];
+let totalPaid = 0;
+/* Declare an empty array named cart to hold the items in the cart */
+const cart = [];
 
 /* Create 3 or more product objects using object literal notation 
    Each product should include five properties
@@ -16,7 +19,7 @@ const cherry = {
   price: 10,
   quantity: 0,
   productId: 1,
-  image: '../images/cherry.jpg'
+  image: './images/cherry.jpg'
 }
 
 const orange = {
@@ -24,7 +27,7 @@ const orange = {
   price: 1,
   quantity: 0,
   productId: 2,
-  image: '../images/orange.jpg'
+  image: './images/orange.jpg'
 }
 
 const strawberry = {
@@ -32,12 +35,10 @@ const strawberry = {
   price: 2,
   quantity: 0,
   productId: 3,
-  image: '../images/strawberry.jpg'
+  image: './images/strawberry.jpg'
 }
 
-products.push(cherry);
-products.push(orange);
-products.push(strawberry);
+products.push(cherry, orange, strawberry);
 
 /* Images provided in /images folder. All images from Unsplash.com
    - cherry.jpg by Mae Mu
@@ -45,9 +46,11 @@ products.push(strawberry);
    - strawberry.jpg by Allec Gomes
 */
 
-/* Declare an empty array named cart to hold the items in the cart */
 
-const cart = [];
+/* findProductInCart - return specific product object refrence from array. used in 3 funcs. */
+const findProductInCart = (arrayToSearch, productId) => {
+  return arrayToSearch.find((product) => product.productId === productId);
+}
 
 /* Create a function named addProductToCart that takes in the product productId as an argument
   - addProductToCart should get the correct product based on the productId
@@ -56,14 +59,9 @@ const cart = [];
 */
 
 const addProductToCart = (productId) => {
-  products.forEach((product) => {
-    if (product.productId === productId) {
-      product.quantity++;
-      if (cart.indexOf(product) === -1) {
-        cart.push(product)
-      }
-    }
-  })
+  const product = findProductInCart(products, productId);
+  if (cart.indexOf(product) === -1) { cart.push(product) } // indexOf returns -1 if not in array
+  product.quantity++; // regardless quantity grows, if added to cart or already in
 }
 
 /* Create a function named increaseQuantity that takes in the productId as an argument
@@ -72,12 +70,8 @@ const addProductToCart = (productId) => {
 */
 
 const increaseQuantity = (productId) => {
-  cart.forEach((product) => {
-    if (product.productId === productId) { 
-      product.quantity++; 
-      return;
-    }
-  })
+  const product = findProductInCart(cart, productId);
+  product.quantity++;
 }
 
 /* Create a function named decreaseQuantity that takes in the productId as an argument
@@ -86,30 +80,23 @@ const increaseQuantity = (productId) => {
   - if the function decreases the quantity to 0, the product is removed from the cart
 */
 const decreaseQuantity = (productId) => {
-  cart.forEach((product) => {
-    if (product.productId === productId) {
-      if (product.quantity === 1) {
-        removeProductFromCart(productId);
-        return;
-      }
-      product.quantity--;
+  const product = findProductInCart(cart, productId);
+  if (product.quantity === 1) {
+      removeProductFromCart(productId);
       return;
-    }
-  })
+  }
+  product.quantity--;
 }
 /* Create a function named removeProductFromCart that takes in the productId as an argument
   - removeProductFromCart should get the correct product based on the productId
   - removeProductFromCart should update the product quantity to 0
   - removeProductFromCart should remove the product from the cart
 */
+
 const removeProductFromCart = (productId) => {
-  cart.forEach((product) => {
-    if (product.productId === productId) {
-      product.quantity = 0;
-      cart.splice(cart.indexOf(product), 1);
-      return;
-    }
-  })
+  const product = cart.find((product) => product.productId === productId)
+  product.quantity = 0;
+  cart.splice(cart.indexOf(product), 1);
 }
 
 /* Create a function named cartTotal that has no parameters
@@ -140,8 +127,6 @@ const emptyCart = () => {
   - pay will return a negative number if there is a remaining balance
   - pay will return a positive number if money should be returned to customer
 */
-
-let totalPaid = 0;
 
 const pay = (amount) => {
   const diff = amount + totalPaid - cartTotal();
