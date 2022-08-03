@@ -62,6 +62,8 @@ const addProductToCart = (productId) => {
   const product = findProductInCart(products, productId);
   if (cart.indexOf(product) === -1) { cart.push(product) } // indexOf returns -1 if not in array
   product.quantity++; // regardless quantity grows, if added to cart or already in
+
+
 }
 
 /* Create a function named increaseQuantity that takes in the productId as an argument
@@ -116,11 +118,11 @@ const cartTotal = () => {
 
 const emptyCart = () => {
   while (cart.length > 0) {
-    cart.pop()
+    cart.pop().quantity = 0;
   }
-  products.forEach((product) => {
-    product.quantity = 0;
-  })
+  // products.forEach((product) => {
+  //   product.quantity = 0;
+  // })
 }
 
 /* Create a function named pay that takes in an amount as an argument

@@ -65,7 +65,7 @@ drawCart();
 drawCheckout();
 
 document.querySelector('.products').addEventListener('click', (e) => {
-
+    if (e.path[0].innerText !== 'ADD TO CART') { return; }
     let productId = e.target.parentNode.getAttribute('data-productId');
     productId *= 1;
     addProductToCart(productId);
